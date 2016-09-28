@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 import "time"
-import "github.com/go-redis/redis"
+//import "github.com/go-redis/redis"
 
 import _ "net/http"
 
