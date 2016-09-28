@@ -2,8 +2,9 @@ package main
 
 import "fmt"
 import "time"
+import "github.com/go-redis/redis"
 
-//import "net/http"
+import _ "net/http"
 
 type Dude struct {
 	year  int
@@ -25,7 +26,7 @@ func isKarkkipaiva() (bool, string) {
 		{2012, 7, 30, "Milo"},
 		{1979, 8, 9, "Henryk"},
 		{1980, 8, 17, "Hannah"},
-		{1090, 9, 29, "Mörkö"},
+		{1090, 9, 28, "Mestari"},
 	}
 
 	// Check for Friday and Saturday
@@ -40,7 +41,6 @@ func isKarkkipaiva() (bool, string) {
 	for i := 0; i < len(dudes); i++ {
 		if isBirthday(dudes[i]) {
 			canHas = true
-			//years := int(now.Year() - dudes[i].year)
 			message += "Hyvää synttäriä " + dudes[i].name
 		}
 	}
@@ -68,7 +68,7 @@ func main() {
 			fmt.Println(message)
 		}
 	} else {
-		fmt.Println("TÄNÄÄN SYÖDÄÄN PUUROA!!!")
+		fmt.Println("Tänään EI ole karkkipäivä.")
 	}
 
 }
