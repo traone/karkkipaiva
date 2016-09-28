@@ -2,9 +2,7 @@ package main
 
 import "fmt"
 import "time"
-//import "github.com/go-redis/redis"
-
-import _ "net/http"
+import "os/exec"
 
 type Dude struct {
 	year  int
@@ -19,14 +17,13 @@ func isKarkkipaiva() (bool, string) {
 	wkint := uint(now.Weekday())
 	canHas := bool(false)
 	allowedDays := []uint{5, 6}
-	message := string("")
+	message := string("Today is not karkkipäivä.")
 
 	dudes := []Dude{
 		{2009, 1, 17, "Poe"},
 		{2012, 7, 30, "Milo"},
 		{1979, 8, 9, "Henryk"},
 		{1980, 8, 17, "Hannah"},
-		{1090, 9, 28, "Mestari"},
 	}
 
 	// Check for Friday and Saturday
@@ -34,6 +31,7 @@ func isKarkkipaiva() (bool, string) {
 		cur := allowedDays[i]
 		if wkint == cur {
 			canHas = true
+			message = "Have a nice karkkipäivä."
 		}
 	}
 
@@ -41,7 +39,7 @@ func isKarkkipaiva() (bool, string) {
 	for i := 0; i < len(dudes); i++ {
 		if isBirthday(dudes[i]) {
 			canHas = true
-			message += "Hyvää synttäriä " + dudes[i].name
+			message = "Happy birthday " + dudes[i].name + ". Have a nice karkkipäivä!"
 		}
 	}
 
@@ -59,16 +57,16 @@ func isBirthday(dude Dude) bool {
 	return false
 }
 
+func say(str string)  {
+	cmd := exec.Command("say", str)
+	cmd.Start()
+	msg := "done did: say \"" + str + "\""
+	fmt.Println(msg)
+}
+
 func main() {
-	canHasCandy, message := isKarkkipaiva()
+	_, message := isKarkkipaiva()
 
-	if canHasCandy {
-		fmt.Println("HYVÄÄ KARKKIPÄIVÄÄ!!!\n")
-		if len(message) > 0 {
-			fmt.Println(message)
-		}
-	} else {
-		fmt.Println("Tänään EI ole karkkipäivä.")
-	}
-
+	fmt.Println(message)
+	say(message)
 }
